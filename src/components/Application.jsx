@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { firestore } from '../firebase';
 import Posts from './Posts';
 import { throwStatement } from '@babel/types';
+import { collectIdsAndDocs } from '../utilities';
 
 class Application extends Component {
   state = {
@@ -39,7 +40,7 @@ class Application extends Component {
 
   componentDidMount = async () => {
     const snapshot = await firestore.collection('posts').get();
-    const posts = snapshot.docs.map(doc => { return { id: doc.id, ...doc.data() } });
+    const posts = snapshot.docs.map(collectIdsAndDocs);
     this.setState( { posts } );
   };
 
